@@ -1,10 +1,13 @@
 const transferDao = require("../dao/transferDao");
 
 const createTransfer = async (req, res) => {
-  const { requester, amount } = req.body;
+  const { amount } = req.body;
+  const requesterId = req.userInfo.userId;
+  const requester = req.userInfo.username;
 
   try {
     const newTransferRequest = await transferDao.createTransferRequest({
+      requesterId,
       requester,
       amount,
     });
