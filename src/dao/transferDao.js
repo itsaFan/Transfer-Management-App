@@ -10,6 +10,10 @@ const getTransferRequests = async () => {
   return TransferRequest.find();
 };
 
+const getTransferReqById = async (_id) => {
+  return TransferRequest.findOne({ _id });
+};
+
 const updateTransReqStatus = async (transferId, newStatus) => {
   try {
     const filter = { _id: transferId };
@@ -28,4 +32,4 @@ const updateTransReqStatus = async (transferId, newStatus) => {
   }
 };
 
-module.exports = { createTransferRequest, getTransferRequests, updateTransReqStatus };
+module.exports = { createTransferRequest, getTransferRequests, getTransferReqById, updateTransReqStatus };
