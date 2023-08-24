@@ -5,7 +5,7 @@ const { checkRole } = require("../middlewares/checkRole");
 
 const router = express.Router();
 
-router.post("/add", verifyJWT, checkRole(["maker"]), createTransfer);
+router.post("/add", verifyJWT, createTransfer);
 router.put("/approve/:transferId", verifyJWT, checkRole(["approver"]), approveTransferReq);
 router.put("/reject/:transferId", verifyJWT, checkRole(["approver"]), rejectTransferReq);
 router.get("/", getAllTransfers);
