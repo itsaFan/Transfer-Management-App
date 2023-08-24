@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 
 const transferReqSchema = new mongoose.Schema({
-  requester: {
+  requesterId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  requester: {
+    type: String,
     required: true,
   },
   status: {
