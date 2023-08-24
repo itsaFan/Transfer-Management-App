@@ -9,7 +9,7 @@ const createTransfer = async (req, res) => {
       amount,
     });
 
-    return res.status(201).json({ message: "Transfer request successfuly created, wait for the status update" });
+    return res.status(201).json({ message: "Transfer request successfuly created, wait for the status update", newTransferRequest });
   } catch (error) {
     console.error("Create transfer request failed:", error);
     return res.status(500).json({ message: "Create transfer request failed because of internal server error" });
@@ -42,7 +42,6 @@ const approveTransferReq = async (req, res) => {
 const rejectTransferReq = async (req, res) => {
   const { transferId } = req.params;
   try {
-
     const transferRequest = await transferDao.getTransferReqById(transferId);
     if (!transferRequest) {
       return res.status(404).json({ message: "Transfer Request not found :(" });
@@ -61,4 +60,14 @@ const rejectTransferReq = async (req, res) => {
   }
 };
 
-module.exports = { createTransfer, approveTransferReq, rejectTransferReq };
+const getAllTransfers = async (req, res) => {
+  try {
+    const transferReequests = await transferDao.getTransferRequests();
+    return res.status(200).json({ transferReequests });
+  } catch (error) {
+    console.error("Error when trying to fetch the transfers:", error);
+    return res.status(500)({ message: "Error when trying to fetch transfer due to internal server" });
+  }
+};
+
+module.exports = { createTransfer, approveTransferReq, rejectTransferReq, getAllTransfers };
