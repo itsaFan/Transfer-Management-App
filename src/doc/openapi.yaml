@@ -65,7 +65,7 @@ paths:
           description: Internal Server Error
   /api/login:
     post:
-      summary: Log in a user
+      summary: Login or signin user
       requestBody:
         required: true
         content:
@@ -165,7 +165,7 @@ paths:
           description: Internal Server Error
   /api/transfer:
     get:
-      summary: Get all transfer requests
+      summary: Get or see all transfer requests
       security:
         - bearerAuth: []
       responses:

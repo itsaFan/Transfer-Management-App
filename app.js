@@ -11,6 +11,7 @@ const OpenApiValidator = require("express-openapi-validator");
 const app = express();
 app.use(express.json());
 
+//establish db connection
 dbConnection();
 
 //Server documentation
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
   console.log("Open Api Validation Working.");
   next();
 });
+
 //OpenApi-Validation Middleware
 app.use(
   OpenApiValidator.middleware({
@@ -29,9 +31,9 @@ app.use(
   })
 );
 
+//app routes
 app.use("/api", authRoutes);
 app.use("/api/transfer", transferRoutes);
-
 
 //Open-api error handling
 app.use((err, req, res, next) => {
