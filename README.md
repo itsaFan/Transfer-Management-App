@@ -63,4 +63,11 @@ JWT_SECRET=your_jwt_secret
 5. Now you have successfully run the project.
 6. Try and see the api-documentation by accessing `localhost:PORT_NUMBER/api-docs`
 
+### Deployment
+
+#### This project is deployed using railway.app
+
+**You can access the api-documentation here:**
+[Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/zrfmWHEN)
