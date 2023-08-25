@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:3000
     description: Development server
+  - url: https://transfer-management-app-production.up.railway.app
+    description: Production or Deployment Server
 components:
   securitySchemes:
     bearerAuth:
