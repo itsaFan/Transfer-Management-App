@@ -67,7 +67,22 @@ JWT_SECRET=your_jwt_secret
 
 #### This project is deployed using railway.app
 
-**You can access the api-documentation here:**
+**You can access the api-documentation here :**
 [Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
+<br> 
+**Don't Forget to switch the `Server`.**
+![Example](./images/ss-swager.png)
+
+#### As per this app features, only 'approver' role can approved or reject a transfer request
+- Refer to `src/routes/transferRoutes.js`
+```javascript
+//Only authenticated user or user with bearer token can create transfer request
+router.post("/add", body("amount").trim(), verifyJWT, createTransfer);
+//only authenticated approver can approve and reject a a pending request
+router.put("/approve/:transferId", verifyJWT, checkRole(["approver"]), approveTransferReq);
+router.put("/reject/:transferId", verifyJWT, checkRole(["approver"]), rejectTransferReq);
+//Any visitors or users can access this
+router.get("/", getAllTransfers);
+```
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/zrfmWHEN)
