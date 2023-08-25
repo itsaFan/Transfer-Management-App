@@ -71,8 +71,10 @@ JWT_SECRET=your_jwt_secret
 #### This project is deployed using railway.app
 If you want to test and see this app api-endpoint and its functionality as mentioned in `app features` above, you can visit the link below <br>
 ### You can access the api-documentation here : [Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
+[View openapi.yaml here](./src/doc/openapi.yaml)<br>
 **Notes: When registering the role accepted is either maker, approver, or admin.**<br>
 Don't Forget to switch the `Server` to deployment or production.
+
 
 ![swagger-ui-ss](./images/image.png)
 
