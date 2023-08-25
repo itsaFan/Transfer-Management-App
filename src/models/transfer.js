@@ -19,6 +19,10 @@ const transferReqSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const TransferRequest = mongoose.model("TransferRequest", transferReqSchema);
