@@ -38,8 +38,8 @@ This transfer request management app is made using javascript, express, mongoDB 
     - Each user password must have a minimum length of 8 chars.
     - Is alphanumeric
     - Is hashed when storing in MongoDB database.
-  - Authentication:
-    - Using JWT to authenticated specific endpoints
+  - Authentication & Authorization:
+    - Using JWT to authenticated specific endpoints & manage role based control.
   - Roles:
     - User with 'maker' role only able to create or add transfer request.
     - The status of transfer request created is 'pending'
