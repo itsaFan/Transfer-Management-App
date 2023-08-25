@@ -68,7 +68,7 @@ JWT_SECRET=your_jwt_secret
 ### Deployment
 
 #### This project is deployed using railway.app
-If you want to test and see this app api-endpoint and its functionality as mentioned in `app features` above, you can visit the link below
+If you want to test and see this app api-endpoint and its functionality as mentioned in `app features` above, you can visit the link below <br>
 **You can access the api-documentation here :**
 [Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
 <br> 
@@ -81,10 +81,13 @@ If you want to test and see this app api-endpoint and its functionality as menti
 //Only authenticated user or user with bearer token can create transfer request
 router.post("/add", body("amount").trim(), verifyJWT, createTransfer);
 //only authenticated approver can approve and reject a a pending request
-router.put("/approve/:transferId", verifyJWT, checkRole(["approver"]), approveTransferReq);
+router.put("/approve/:transferId", verifyJWT, checkRole(["approver", "admin"]), approveTransferReq);
 router.put("/reject/:transferId", verifyJWT, checkRole(["approver"]), rejectTransferReq);
 //Any visitors or users can access this
 router.get("/", getAllTransfers);
+//admin area
+router.put("/soft-delete/:transferId", verifyJWT, checkRole(["admin"]), softDeleteTransferReq);
+router.get("/admin/transfer-lists", verifyJWT, checkRole(["admin"]), adminGetAllTransfers)
 ```
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/zrfmWHEN)
