@@ -168,8 +168,6 @@ paths:
   /api/transfer:
     get:
       summary: Get or see all transfer requests
-      security:
-        - bearerAuth: []
       responses:
         "200":
           description: Get all transfer requests
