@@ -6,9 +6,11 @@ const transferRoutes = require("./src/routes/transferRoutes");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const OpenApiValidator = require("express-openapi-validator");
+const cors = require('cors');
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 //establish db connection
