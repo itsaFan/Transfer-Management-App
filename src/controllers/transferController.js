@@ -65,6 +65,39 @@ const rejectTransferReq = async (req, res) => {
 
 const getAllTransfers = async (req, res) => {
   try {
+    const transferRe = await transferDao.getTransferReqByBoolean(false)
+
+    return res.status(200).json({ Message: "Transfer Request Lists", transferRe });
+  } catch (error) {
+    console.error("Error when trying to get transfer lists:", error);
+    return res.status(500).json({ message: "Error when trying to get transfer lists due to internal error" });
+  }
+};
+
+const softDeleteTransferReq = async (req, res) => {
+  const { transferId } = req.params;
+
+  try {
+    const transferRequest = await transferDao.getTransferReqById(transferId);
+    if (!transferRequest) {
+      return res.status(404).json({ message: "Transfer Request not found :(" });
+    }
+
+    if (transferRequest.status === "pending") {
+      await transferDao.softDeleteTransferReq(transferId);
+
+      return res.status(200).json({ message: "Transfer Request has been successfully soft deleted" });
+    } else {
+      return res.status(400).json({ message: "Cannot soft delete the transfer that has been approved or rejected" });
+    }
+  } catch (error) {
+    console.error("Error during soft delete transfer request:", error);
+    return res.status(500).json({ Message: "Error during soft delete due to internal server" });
+  }
+};
+
+const adminGetAllTransfers = async (req, res) => {
+  try {
     const transferReequests = await transferDao.getTransferRequests();
     return res.status(200).json({ transferReequests });
   } catch (error) {
@@ -73,4 +106,44 @@ const getAllTransfers = async (req, res) => {
   }
 };
 
-module.exports = { createTransfer, approveTransferReq, rejectTransferReq, getAllTransfers };
+const getTransferReqByDateRange = async (req, res) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    const transferReqs = await transferDao.getTransferRequestsByDateRange(startDate, endDate);
+    return res.status(200).json( transferReqs );
+  } catch (error) {
+    console.error("Error when trying to get transfer request:", error);
+    return res.status(500).json({ message: "Error when trying to get transfer req by date due to internal server" });
+  }
+};
+
+const getTransferReqByStatuses = async (req, res) => {
+  const { statuses } = req.query;
+
+  if(!statuses) {
+    return res.status(400).json({message:"Missing 'statuses' paramater"});
+  }
+
+  const statusesArray = statuses.split(',');
+
+  try {
+    const transferReqs = await transferDao.getTransferRequestsByStatus(statusesArray);
+    return res.status(200).json(transferReqs);
+  } catch (error) {
+    console.error("Error when trying to get transfer request by status:", error);
+    return res.status(500).json({ message: "Error when trying to get transfer req by status due to internal server" });
+  }
+};
+
+
+module.exports = { 
+  createTransfer,
+   approveTransferReq, 
+   rejectTransferReq, 
+   getAllTransfers, 
+   softDeleteTransferReq, 
+   adminGetAllTransfers, 
+   getTransferReqByDateRange,
+   getTransferReqByStatuses 
+  };
