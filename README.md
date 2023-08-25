@@ -73,7 +73,7 @@ If you want to test and see this app api-endpoint and its functionality as menti
 [Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
 <br> 
 **Don't Forget to switch the `Server`.**
-![Example](./images/ss-swager.png)
+![swagger-ui-ss](image.png)
 
 #### As per this app features, only 'approver' role can approved or reject a transfer request
 - Refer to `src/routes/transferRoutes.js`
