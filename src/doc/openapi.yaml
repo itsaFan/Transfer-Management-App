@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Steffan-Week10-Api
+  version: 1.0.0
+  description: RevoU Week 10 Assignment Transfer Request Management Api Documentation
+servers:
+  - url: http://localhost:3000
+    description: Development server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer with JWT Token'
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+          minLength: 8
+        role:
+          type: string
+    TransferRequest:
+      type: object
+      properties:
+        requesterId:
+          type: string
+        requester:
+          type: string
+        status:
+          type: string
+        amount:
+          type: number
+paths:
+  /api/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: User registered successfully
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+  /api/login:
+    post:
+      summary: Log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized or Wrong Credentials
+        "500":
+          description: Internal Server Error
+  /api/transfer/add:
+    post:
+      summary: Create a new transfer request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Transfer request successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransferRequest"
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+  /api/transfer/approve/{transferId}:
+    put:
+      summary: Approve a transfer request
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Transfer request successfully approved
+        "400":
+          description: Bad Request
+        "404":
+          description: Transfer Request not found
+        "500":
+          description: Internal Server Error
+  /api/transfer/reject/{transferId}:
+    put:
+      summary: Reject a transfer request
+      parameters:
+        - name: transferId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Transfer request successfully rejected
+        "400":
+          description: Bad Request
+        "404":
+          description: Transfer Request not found
+        "500":
+          description: Internal Server Error
+  /api/transfer:
+    get:
+      summary: Get all transfer requests
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Get all transfer requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transferRequests:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TransferRequest"
+        "500":
+          description: Internal Server Error
