@@ -50,4 +50,31 @@ const softDeleteTransferReq = async (transferId) => {
   }
 };
 
-module.exports = { createTransferRequest, getTransferRequests, getTransferReqById, updateTransReqStatus, softDeleteTransferReq, getTransferReqByBoolean };
+const getTransferRequestsByDateRange = async (startDate, endDate) => {
+  const startISODate = new Date(startDate).toISOString();
+  const endISODate = new Date(endDate).toISOString();
+
+  return TransferRequest.find({
+    createdAt: {
+      $gte: startISODate,
+      $lte: endISODate,
+    },
+  });
+};
+
+const getTransferRequestsByStatus = async (statuses) => {
+  return TransferRequest.find({
+    status: { $in: statuses },
+  });
+};
+
+module.exports = { 
+  createTransferRequest, 
+  getTransferRequests, 
+  getTransferReqById, 
+  updateTransReqStatus, 
+  softDeleteTransferReq, 
+  getTransferReqByBoolean, 
+  getTransferRequestsByDateRange, 
+  getTransferRequestsByStatus 
+};

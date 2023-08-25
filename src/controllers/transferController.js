@@ -106,4 +106,44 @@ const adminGetAllTransfers = async (req, res) => {
   }
 };
 
-module.exports = { createTransfer, approveTransferReq, rejectTransferReq, getAllTransfers, softDeleteTransferReq, adminGetAllTransfers };
+const getTransferReqByDateRange = async (req, res) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    const transferReqs = await transferDao.getTransferRequestsByDateRange(startDate, endDate);
+    return res.status(200).json( transferReqs );
+  } catch (error) {
+    console.error("Error when trying to get transfer request:", error);
+    return res.status(500).json({ message: "Error when trying to get transfer req by date due to internal server" });
+  }
+};
+
+const getTransferReqByStatuses = async (req, res) => {
+  const { statuses } = req.query;
+
+  if(!statuses) {
+    return res.status(400).json({message:"Missing 'statuses' paramater"});
+  }
+
+  const statusesArray = statuses.split(',');
+
+  try {
+    const transferReqs = await transferDao.getTransferRequestsByStatus(statusesArray);
+    return res.status(200).json(transferReqs);
+  } catch (error) {
+    console.error("Error when trying to get transfer request by status:", error);
+    return res.status(500).json({ message: "Error when trying to get transfer req by status due to internal server" });
+  }
+};
+
+
+module.exports = { 
+  createTransfer,
+   approveTransferReq, 
+   rejectTransferReq, 
+   getAllTransfers, 
+   softDeleteTransferReq, 
+   adminGetAllTransfers, 
+   getTransferReqByDateRange,
+   getTransferReqByStatuses 
+  };
