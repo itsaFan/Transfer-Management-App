@@ -49,6 +49,9 @@ components:
         amount:
           type: number
           minimum: 0
+        createdAt:
+          type: string
+          format: date-time
         isDeleted:
           type: boolean
 paths:
@@ -222,5 +225,70 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/TransferRequest"
+        "500":
+          description: Internal Server Error
+  /api/transfer/search-date:
+    get:
+      summary: Admin search transfer requests using date range
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          example: "2023-08-05"
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          example: "2023-08-26"
+      responses:
+        "200":
+          description: Transfer requests within the specified set date range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transferRequests:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TransferRequest"
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+
+  /api/transfer/search-status:
+    get:
+      summary: Admin search transfer requests by status
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: statuses
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "pending,approved"
+      responses:
+        "200":
+          description: Transfer requests with the specified set status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transferRequests:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TransferRequest"
+        "400":
+          description: Bad Request
         "500":
           description: Internal Server Error
