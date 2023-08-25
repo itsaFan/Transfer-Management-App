@@ -47,6 +47,7 @@ This transfer request management app is made using javascript, express, mongoDB 
     - Anyone without authentication and role authorization will be able to view all the transfer lists that is not soft-deleted.
     - User with `'admin'` role able to create, approve, and soft-delete the transfer request with status `'pending'` only not `'approved'` or `'rejected'`
     - `admin` role also able to see all the transfer requests available on the database without filtering the soft-delete method.
+    - `admin` role also able to search or get all transfer request based on `date-range` & `multiple-statuses`
 
 #### Guide to use this app
 
@@ -73,9 +74,9 @@ If you want to test and see this app api-endpoint and its functionality as menti
 [Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
 <br> 
 **Don't Forget to switch the `Server`.**
-![swagger-ui-ss](image.png)
+![swagger-ui-ss](./images/image.png)
 
-#### As per this app features, only 'approver' role can approved or reject a transfer request
+#### Based on app featured discussed above: below is the routings for role-based access control
 - Refer to `src/routes/transferRoutes.js`
 ```javascript
 //Only authenticated user or user with bearer token can create transfer request
@@ -88,6 +89,8 @@ router.get("/", getAllTransfers);
 //admin area
 router.put("/soft-delete/:transferId", verifyJWT, checkRole(["admin"]), softDeleteTransferReq);
 router.get("/admin/transfer-lists", verifyJWT, checkRole(["admin"]), adminGetAllTransfers)
+router.get("/search-date", verifyJWT, checkRole(["admin"]), getTransferReqByDateRange,);
+router.get("/search-status", verifyJWT, checkRole(["admin"]), getTransferReqByStatuses);
 ```
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/zrfmWHEN)
