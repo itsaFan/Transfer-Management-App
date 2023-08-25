@@ -41,10 +41,12 @@ This transfer request management app is made using javascript, express, mongoDB 
   - Authentication & Authorization:
     - Using JWT to authenticated specific endpoints & manage role based control.
   - Roles:
-    - User with 'maker' role only able to create or add transfer request.
-    - The status of transfer request created is 'pending'
-    - User with 'approver' role able to create, approve, and reject transfer request.
-    - Anyone without authentication and role authorization will be able to view all the transfer lists.
+    - User with `'maker'` role only able to create or add transfer request.
+    - The status of transfer request created is automatically set to `'pending'`
+    - User with `'approver'` role able to create, and `approve` or `reject` transfer request that has `pending` status.
+    - Anyone without authentication and role authorization will be able to view all the transfer lists that is not soft-deleted.
+    - User with `'admin'` role able to create, approve, and soft-delete the transfer request with status `'pending'` only not `'approved'` or `'rejected'`
+    - `admin` role also able to see all the transfer requests available on the database without filtering the soft-delete method.
 
 #### Guide to use this app
 
@@ -66,7 +68,7 @@ JWT_SECRET=your_jwt_secret
 ### Deployment
 
 #### This project is deployed using railway.app
-
+If you want to test and see this app api-endpoint and its functionality as mentioned in `app features` above, you can visit the link below
 **You can access the api-documentation here :**
 [Link Here!](https://transfer-management-app-production.up.railway.app/api-docs/)
 <br> 
