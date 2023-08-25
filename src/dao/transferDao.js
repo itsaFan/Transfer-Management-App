@@ -14,6 +14,10 @@ const getTransferReqById = async (_id) => {
   return TransferRequest.findOne({ _id });
 };
 
+const getTransferReqByBoolean = async (isDeleted) => {
+  return TransferRequest.find({ isDeleted });
+};
+
 const updateTransReqStatus = async (transferId, newStatus) => {
   try {
     const filter = { _id: transferId };
@@ -32,4 +36,18 @@ const updateTransReqStatus = async (transferId, newStatus) => {
   }
 };
 
-module.exports = { createTransferRequest, getTransferRequests, getTransferReqById, updateTransReqStatus };
+const softDeleteTransferReq = async (transferId) => {
+  try {
+    const transId = { _id: transferId };
+    const deleteStatus = { $set: { isDeleted: true } };
+
+    const result = await TransferRequest.updateOne(transId, deleteStatus);
+
+    return result;
+  } catch (error) {
+    console.error("Error when trying to soft delete transfer request", error);
+    throw error;
+  }
+};
+
+module.exports = { createTransferRequest, getTransferRequests, getTransferReqById, updateTransReqStatus, softDeleteTransferReq, getTransferReqByBoolean };
