@@ -6,7 +6,7 @@ const checkRole = (allowedRoles) => {
     const { role } = req.userInfo;
 
     if (!allowedRoles.includes(role)) {
-      return res.status(403).json({ message: "Access Denied, you don't have permission to access this data" });
+      return res.status(403).json({ message: "Access Denied, you don't have permission to access this data or url" });
     }
     next();
   };
